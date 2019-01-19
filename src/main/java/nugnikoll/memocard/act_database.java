@@ -63,6 +63,9 @@ public class act_database extends AppCompatActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
+			case R.id.action_back:
+				finish();
+				return true;
 			case R.id.action_add:
 				create_table();
 				return true;
