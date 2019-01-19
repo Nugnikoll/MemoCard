@@ -24,7 +24,7 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 		mode_normal,
 		mode_content
 	};
-	LinearLayout linear_content, linear_check, linear_true, linear_false;
+	LinearLayout linear_content, linear_check, linear_true, linear_false, linear_next;
 	TextView text_key, text_content;
 
 	@Override
@@ -39,6 +39,8 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 		linear_true.setOnClickListener(this);
 		linear_false = findViewById(R.id.linear_false);
 		linear_false.setOnClickListener(this);
+		linear_next = findViewById(R.id.linear_next);
+		linear_next.setOnClickListener(this);
 		text_key = findViewById(R.id.text_key);
 		text_content = findViewById(R.id.text_content);
 
@@ -84,6 +86,10 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 			next_card();
 			set_mode(mode_type.mode_normal);
 			break;
+		case R.id.linear_next:
+			next_card();
+			set_mode(mode_type.mode_normal);
+			break;
 		default:
 			break;
 		}
@@ -108,14 +114,16 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 		case mode_normal:
 			linear_content.setVisibility(View.GONE);
 			linear_check.setVisibility(View.VISIBLE);
-			text_key.setMinHeight(500);
+			linear_true.setVisibility(View.GONE);
+			linear_false.setVisibility(View.GONE);
+			text_key.setMinHeight(600);
 			text_content.setMinHeight(0);
 			break;
 		case mode_content:
 			linear_content.setVisibility(View.VISIBLE);
 			linear_check.setVisibility(View.GONE);
 			text_key.setMinHeight(0);
-			text_content.setMinHeight(500);
+			text_content.setMinHeight(600);
 			break;
 		default:
 		}
