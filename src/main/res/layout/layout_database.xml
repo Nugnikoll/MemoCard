@@ -12,10 +12,6 @@
     tools:context=".act_database"
     android:background="#000000">
 
-    <ScrollView
-        android:id="@+id/scroll_database"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/linear_database"
@@ -26,8 +22,10 @@
             <ListView
                 android:id="@+id/list_database"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:background="#c0c0c0"
+                android:textColor="#ffffff"
+                android:textSize="20.0dip"/>
 
         </LinearLayout>
-    </ScrollView>
 </LinearLayout>
