@@ -15,25 +15,16 @@ import java.util.List;
 /**
  * A login screen that offers login via email/password.
  */
-public class act_main extends AppCompatActivity implements View.OnClickListener{
-
-    protected Button button_start, button_database, button_setting;
+public class act_card extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_main);
-
-        button_start = findViewById(R.id.button_start);
-        button_start.setOnClickListener(this);
-        button_database = findViewById(R.id.button_database);
-        button_database.setOnClickListener(this);
-        button_setting = findViewById(R.id.button_setting);
-        button_setting.setOnClickListener(this);
+        setContentView(R.layout.layout_card);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_card, menu);
         return true;
     }
 
@@ -52,20 +43,7 @@ public class act_main extends AppCompatActivity implements View.OnClickListener{
 
 	@Override
 	public void onClick(View view){
-		Intent itt;
 		switch(view.getId()){
-        case R.id.button_start:
-            itt = new Intent(this, act_card.class);
-            startActivityForResult(itt, 1);
-			break;
-		case R.id.button_database:
-            itt = new Intent(this, act_database.class);
-            startActivityForResult(itt, 1);
-			break;
-        case R.id.button_setting:
-            //itt = new Intent(this, act_database.class);
-            //startActivityForResult(itt, 1);
-			break;
 		default:
 			break;
 		}

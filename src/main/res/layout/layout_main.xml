@@ -30,7 +30,7 @@
                 android:layout_marginTop="40dp"
                 android:text="Quick Start"
                 android:textStyle="bold"
-                android:background="#80b080"
+                android:background="@drawable/main_button"
                 android:textSize="30dp"/>
 
             <Button
@@ -40,7 +40,7 @@
                 android:layout_marginTop="20dp"
                 android:text="Manage Database"
                 android:textStyle="bold"
-                android:background="#80b080"
+                android:background="@drawable/main_button"
                 android:textSize="30dp"/>
 
             <Button
@@ -50,7 +50,7 @@
                 android:layout_marginTop="20dp"
                 android:text="Setting"
                 android:textStyle="bold"
-                android:background="#80b080"
+                android:background="@drawable/main_button"
                 android:textSize="30dp"/>
 
             <TextView
