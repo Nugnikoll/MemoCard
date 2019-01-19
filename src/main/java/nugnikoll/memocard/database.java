@@ -58,4 +58,47 @@ public class database{
 			+ "` set id = " + p2 + " where id = -1;"
 		);
 	}
+
+	public int get_table_size(String table){
+		int result = -1;
+		Cursor cs = db.rawQuery(
+			"select count(*) from `" + table + "`"
+			, null
+		);
+		while(cs.moveToNext()){
+			result = Integer.valueOf(cs.getString(0));
+		}
+		cs.close();
+		return result;
+	}
+
+	public Vector<String> get_card(String table, int pos){
+		Vector<String> vec = new Vector<>();
+		Cursor cs = db.rawQuery(
+			"select * from `" + table + "` where _rowid_ = "
+			+ Integer.toString(pos)
+			, null
+		);
+		while(cs.moveToNext()){
+			vec.add(cs.getString(cs.getColumnIndex("key")));
+			vec.add(cs.getString(cs.getColumnIndex("content")));
+		}
+		cs.close();
+		return vec;
+	}
+
+	public Vector<String> get_quote(String table, int pos){
+		Vector<String> vec = new Vector<>();
+		Cursor cs = db.rawQuery(
+			"select * from `" + table + "` where _rowid_ = "
+			+ Integer.toString(pos)
+			, null
+		);
+		while(cs.moveToNext()){
+			vec.add(cs.getString(cs.getColumnIndex("text")));
+			vec.add(cs.getString(cs.getColumnIndex("author")));
+		}
+		cs.close();
+		return vec;
+	}
 }
