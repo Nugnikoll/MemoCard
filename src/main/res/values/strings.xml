@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">MemoCard</string>
 
+    <string name="action_setting">Setting</string>
+    <string name="action_login">Log In</string>
+    <string name="action_signin">Sign In</string>
+    <string name="action_signup">Sign Up</string>
+    <string name="action_logout">Log Out</string>
+    <string name="action_help">Help</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>

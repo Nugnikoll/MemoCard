@@ -9,72 +9,72 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".act_main">
-
-    <!-- Login progress -->
-    <!--
-    <ProgressBar
-        android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone" />
+    tools:context=".act_main"
+    android:background="#000000">
 
     <ScrollView
-        android:id="@+id/login_form"
+        android:id="@+id/scroll_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/email_login_form"
+            android:id="@+id/linear_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.design.widget.TextInputLayout
+            <Button
+                android:id="@+id/button_start"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <AutoCompleteTextView
-                    android:id="@+id/email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_email"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_password"
-                    android:imeActionId="6"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="Quick Start"
+                android:textStyle="bold"
+                android:background="#80b080"
+                android:textSize="30dp"/>
 
             <Button
-                android:id="@+id/email_sign_in_button"
-                style="?android:textAppearanceSmall"
+                android:id="@+id/button_database"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Manage Database"
+                android:textStyle="bold"
+                android:background="#80b080"
+                android:textSize="30dp"/>
+
+            <Button
+                android:id="@+id/button_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Setting"
+                android:textStyle="bold"
+                android:background="#80b080"
+                android:textSize="30dp"/>
+
+            <TextView
+                android:id="@+id/text_quote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="I love you the more in that I believe you had liked me for my own sake and for nothing else."
+                android:textColor="#ffffff"
+                android:textSize="24dp"
+                android:textStyle="italic"
+                android:fontFamily="sans-serif"/>
+
+            <TextView
+                android:id="@+id/text_author"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/action_sign_in"
-                android:textStyle="bold" />
+                android:gravity="end"
+                android:text="John Keats"
+                android:textColor="#ffffff"
+                android:textSize="24dp"
+                android:textStyle="italic"/>
 
         </LinearLayout>
     </ScrollView>
-    -->
 </LinearLayout>
