@@ -93,7 +93,7 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 
 		app_memo app = (app_memo) getApplication();
 		db = app.get_database();
-		table = "gre";
+		table = "gre_000";
 		index = 1;
 		table_size = db.get_table_size(table);
 		set_card(0, 1);
@@ -154,7 +154,7 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 	protected void next_card(){
 		++index;
 		if(index > table_size){
-			index = 0;
+			index = 1;
 		}
 		set_card(flag_scene ? 0 : 1, index);
 		set_mode(flag_scene ? 0 : 1, mode_type.mode_normal);
