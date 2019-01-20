@@ -38,23 +38,6 @@
 	</LinearLayout>
 
 	<LinearLayout
-		android:id="@+id/linear_check"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal"
-		android:background="@drawable/card_check">
-		<TextView
-			android:id="@+id/text_check"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_margin="10dp"
-			android:gravity="center"
-			android:text="check answer"
-			android:textSize="30dp"
-			android:textColor="#000000"/>
-	</LinearLayout>
-
-	<LinearLayout
 		android:id="@+id/linear_true"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"

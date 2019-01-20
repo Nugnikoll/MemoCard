@@ -32,7 +32,7 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 	protected ViewGroup view_normal, view_next;
 	protected Scene scene_normal, scene_next;
 	protected boolean flag_scene;
-	protected LinearLayout[] linear_content, linear_check, linear_true, linear_false, linear_next;
+	protected LinearLayout[] linear_key, linear_content, linear_true, linear_false, linear_next;
 	protected TextView[] text_key, text_content;
 	protected Transition trans_card;
 	protected String table;
@@ -56,16 +56,16 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 		scene_normal.enter();
 		flag_scene = false;
 
+		linear_key = new LinearLayout[]{
+			view_normal.findViewById(R.id.linear_key),
+			view_next.findViewById(R.id.linear_key)
+		};
+		linear_key[0].setOnClickListener(this);
+		linear_key[1].setOnClickListener(this);
 		linear_content = new LinearLayout[]{
 			view_normal.findViewById(R.id.linear_content),
 			view_next.findViewById(R.id.linear_content)
 		};
-		linear_check = new LinearLayout[]{
-			view_normal.findViewById(R.id.linear_check),
-			view_next.findViewById(R.id.linear_check)
-		};
-		linear_check[0].setOnClickListener(this);
-		linear_check[1].setOnClickListener(this);
 		linear_true = new LinearLayout[]{
 			view_normal.findViewById(R.id.linear_true),
 			view_next.findViewById(R.id.linear_true)
@@ -136,7 +136,7 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 	@Override
 	public void onClick(View view){
 		switch(view.getId()){
-		case R.id.linear_check:
+		case R.id.linear_key:
 			set_card(flag_scene ? 0 : 1, index);
 			set_mode(flag_scene ? 0 : 1, mode_type.mode_content);
 			break;
@@ -177,20 +177,14 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 	protected void set_mode(int index, mode_type mode){
 		switch (mode){
 		case mode_normal:
-			linear_content[index].setVisibility(View.GONE);
-			linear_check[index].setVisibility(View.VISIBLE);
-			linear_true[index].setVisibility(View.GONE);
-			linear_false[index].setVisibility(View.GONE);
-			text_key[index].setMinHeight(600);
+			text_key[index].setMinHeight(700);
 			text_content[index].setMinHeight(0);
+			text_content[index].setVisibility(View.GONE);
 			break;
 		case mode_content:
-			linear_content[index].setVisibility(View.VISIBLE);
-			linear_check[index].setVisibility(View.GONE);
-			linear_true[index].setVisibility(View.GONE);
-			linear_false[index].setVisibility(View.GONE);
 			text_key[index].setMinHeight(0);
 			text_content[index].setMinHeight(600);
+			text_content[index].setVisibility(View.VISIBLE);
 			break;
 		default:
 		}
