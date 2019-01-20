@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ public class act_database extends AppCompatActivity {
 	private String text_input_table;
 	private Vector<String> vec_table;
 	private ListView list_table;
+	private TextView text_table;
 	private int pos_select;
 
 	@Override
@@ -50,8 +53,13 @@ public class act_database extends AppCompatActivity {
 				}
 			}
 		);
+		text_table = findViewById(R.id.text_table);
 		init_list();
 		update_list();
+
+		SharedPreferences prefer = getSharedPreferences("config", MODE_PRIVATE);
+		String select_table = prefer.getString("select_table", "gre_000");
+		text_table.setText("table: " + select_table);
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -121,6 +129,8 @@ public class act_database extends AppCompatActivity {
 		builder.setTitle("Table: " + vec_table.get(position));
 
 		final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+
+		arrayAdapter.add("Select");
 		arrayAdapter.add("Info");
 		arrayAdapter.add("Move Upward");
 		arrayAdapter.add("Move Downward");
@@ -140,9 +150,16 @@ public class act_database extends AppCompatActivity {
 
 				switch (pos){
 				case 0:
-					table_info(pos_select);
+					SharedPreferences prefer = getSharedPreferences("config", MODE_PRIVATE);
+					SharedPreferences.Editor editor = prefer.edit();
+					editor.putString("select_table", vec_table.get(pos_select));
+					editor.apply();
+					text_table.setText("table: " + vec_table.get(pos_select));
 					break;
 				case 1:
+					table_info(pos_select);
+					break;
+				case 2:
 					if(pos_select > 0){
 						String temp = vec_table.get(pos_select - 1);
 						vec_table.set(pos_select - 1, vec_table.get(pos_select));
@@ -151,7 +168,7 @@ public class act_database extends AppCompatActivity {
 						update_list();
 					}
 					break;
-				case 2:
+				case 3:
 					if(pos_select + 1 < vec_table.size()){
 						String temp = vec_table.get(pos_select);
 						vec_table.set(pos_select, vec_table.get(pos_select + 1));

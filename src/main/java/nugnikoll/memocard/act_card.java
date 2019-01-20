@@ -1,6 +1,7 @@
 package nugnikoll.memocard;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.transition.Scene;
@@ -93,7 +94,8 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 
 		app_memo app = (app_memo) getApplication();
 		db = app.get_database();
-		table = "gre_000";
+		SharedPreferences prefer = getSharedPreferences("config", MODE_PRIVATE);
+		table = prefer.getString("select_table", "");
 		index = 1;
 		table_size = db.get_table_size(table);
 		set_card(0, 1);

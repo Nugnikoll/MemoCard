@@ -1,6 +1,7 @@
 package nugnikoll.memocard;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,8 +20,9 @@ public class act_main extends AppCompatActivity implements View.OnClickListener{
 
 	database db;
 	Button button_start, button_database, button_setting;
-	TextView text_quote, text_author;
+	TextView text_table, text_quote, text_author;
 	int quote_size;
+	String select_table;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class act_main extends AppCompatActivity implements View.OnClickListener{
 		button_database.setOnClickListener(this);
 		button_setting = findViewById(R.id.button_setting);
 		button_setting.setOnClickListener(this);
+		text_table = findViewById(R.id.text_table);
 		text_quote = findViewById(R.id.text_quote);
 		text_author = findViewById(R.id.text_author);
 
@@ -42,7 +45,20 @@ public class act_main extends AppCompatActivity implements View.OnClickListener{
 		Random rnd = new Random();
 		int pos = rnd.nextInt(quote_size);
 		set_quote(pos + 1);
+
+		SharedPreferences prefer = getSharedPreferences("config", MODE_PRIVATE);
+		select_table = prefer.getString("select_table", "gre_000");
+		text_table.setText("table: " + select_table);
 	}
+
+	@Override
+	public void onResume(){
+		super.onResume();
+		SharedPreferences prefer = getSharedPreferences("config", MODE_PRIVATE);
+		select_table = prefer.getString("select_table", "gre_000");
+		text_table.setText("table: " + select_table);
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_main, menu);
