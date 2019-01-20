@@ -8,6 +8,7 @@ import android.transition.Scene;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,25 +21,27 @@ import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
 public class act_card extends AppCompatActivity implements View.OnClickListener{
 
-	database db;
-	private String table;
-	private int index, table_size;
-	enum mode_type{
+	protected database db;
+	protected ScrollView scroll_card;
+	protected ViewGroup view_normal, view_next;
+	protected Scene scene_normal, scene_next;
+	protected boolean flag_scene;
+	protected LinearLayout[] linear_content, linear_check, linear_true, linear_false, linear_next;
+	protected TextView[] text_key, text_content;
+	protected Transition trans_card;
+	protected String table;
+	protected int index, table_size;
+	protected enum mode_type{
 		mode_normal,
 		mode_content
 	};
-	ScrollView scroll_card;
-	ViewGroup view_normal, view_next;
-	Scene scene_normal, scene_next;
-	boolean flag_scene;
-	LinearLayout[] linear_content, linear_check, linear_true, linear_false, linear_next;
-	TextView[] text_key, text_content;
-	Transition trans_card;
+	protected Vector<Integer> vec_index;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -96,9 +99,15 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 		db = app.get_database();
 		SharedPreferences prefer = getSharedPreferences("config", MODE_PRIVATE);
 		table = prefer.getString("select_table", "");
-		index = 1;
+		index = 0;
 		table_size = db.get_table_size(table);
-		set_card(0, 1);
+		vec_index = new Vector<>();
+		for(int i = 0; i != table_size; ++i){
+			vec_index.add(i + 1);
+		}
+		Collections.shuffle(vec_index);
+
+		set_card(0, index);
 		set_mode(0, mode_type.mode_normal);
 	}
 
@@ -112,6 +121,9 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
+			case R.id.action_back:
+				finish();
+				return true;
 			case R.id.action_login:
 				Intent itt = new Intent(this, act_login.class);
 				startActivityForResult(itt, 1);
@@ -148,15 +160,15 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 	}
 
 	protected void set_card(int index, int pos){
-		Vector<String> vec = db.get_card(table, pos);
+		Vector<String> vec = db.get_card(table, vec_index.get(pos));
 		text_key[index].setText(vec.get(0).trim());
 		text_content[index].setText(vec.get(1).trim());
 	}
 
 	protected void next_card(){
 		++index;
-		if(index > table_size){
-			index = 1;
+		if(index >= table_size){
+			index = 0;
 		}
 		set_card(flag_scene ? 0 : 1, index);
 		set_mode(flag_scene ? 0 : 1, mode_type.mode_normal);

@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.Vector;
 
 public class database{
-	private SQLiteDatabase db;
+	protected SQLiteDatabase db;
 
 	public database(Context context, String path){
 		db = context.openOrCreateDatabase(path, Context.MODE_PRIVATE, null);

@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class app_memo extends Application{
-	private String tag;
-	private database db;
+	protected String tag;
+	protected database db;
 
 	@Override
 	public void onCreate(){

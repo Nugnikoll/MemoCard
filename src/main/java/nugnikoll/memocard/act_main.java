@@ -18,11 +18,11 @@ import java.util.Vector;
 
 public class act_main extends AppCompatActivity implements View.OnClickListener{
 
-	database db;
-	Button button_start, button_database, button_setting;
-	TextView text_table, text_quote, text_author;
-	int quote_size;
-	String select_table;
+	protected database db;
+	protected Button button_start, button_database, button_setting;
+	protected TextView text_table, text_quote, text_author;
+	protected int quote_size;
+	protected String select_table;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

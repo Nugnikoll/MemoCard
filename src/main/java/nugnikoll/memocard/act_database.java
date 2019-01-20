@@ -29,12 +29,12 @@ import java.util.Vector;
  * A login screen that offers login via email/password.
  */
 public class act_database extends AppCompatActivity {
-	private database db;
-	private String text_input_table;
-	private Vector<String> vec_table;
-	private ListView list_table;
-	private TextView text_table;
-	private int pos_select;
+	protected database db;
+	protected String text_input_table;
+	protected Vector<String> vec_table;
+	protected ListView list_table;
+	protected TextView text_table;
+	protected int pos_select;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
