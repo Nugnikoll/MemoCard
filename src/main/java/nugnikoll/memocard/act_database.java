@@ -26,6 +26,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import java.util.regex.Pattern;
 
 /**
  * A login screen that offers login via email/password.
@@ -100,7 +101,7 @@ public class act_database extends AppCompatActivity {
 	}
 
 	protected void create_table(){
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Create new table");
 
 		final EditText input_table = new EditText(this);
@@ -114,18 +115,7 @@ public class act_database extends AppCompatActivity {
 
 		builder.setView(linear_dialog);
 
-		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				String text_input_table = input_table.getText().toString().trim();
-				String text_input_info = input_info.getText().toString().trim();
-				if(text_input_table.length() > 0){
-					db.insert_table(pos_select, text_input_table, text_input_info);
-					init_list();
-					update_list();
-				}
-			}
-		});
+		builder.setPositiveButton("OK", null);
 		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -133,7 +123,29 @@ public class act_database extends AppCompatActivity {
 			}
 		});
 
-		builder.show();
+		final AlertDialog dialog = builder.create();
+		dialog.show();
+		dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				String text_input_table = input_table.getText().toString().trim();
+				String text_input_info = input_info.getText().toString();
+				if(text_input_table.length() > 0){
+					text_input_table = text_input_table.replaceAll("`", "``");
+					text_input_info = text_input_info.replaceAll("`", "``");
+					db.insert_table(pos_select, text_input_table, text_input_info);
+					init_list();
+					update_list();
+					dialog.dismiss();
+				}else{
+					Toast.makeText(
+						act_database.this,
+						"The table name cannot be empty!",
+						Toast.LENGTH_LONG
+					).show();
+				}
+			}
+		});
 	}
 
 	protected void click_table(int position){
@@ -174,19 +186,15 @@ public class act_database extends AppCompatActivity {
 					break;
 				case 2:
 					if(pos_select > 0){
-						String temp = vec_table.get(pos_select - 1);
-						vec_table.set(pos_select - 1, vec_table.get(pos_select));
-						vec_table.set(pos_select, temp);
 						db.swap_index("index", pos_select - 1, pos_select);
+						init_list();
 						update_list();
 					}
 					break;
 				case 3:
 					if(pos_select + 1 < vec_table.size()){
-						String temp = vec_table.get(pos_select);
-						vec_table.set(pos_select, vec_table.get(pos_select + 1));
-						vec_table.set(pos_select + 1, temp);
 						db.swap_index("index", pos_select, pos_select + 1);
+						init_list();
 						update_list();
 					}
 					break;

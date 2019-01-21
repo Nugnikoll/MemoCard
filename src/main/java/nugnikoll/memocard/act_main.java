@@ -45,18 +45,13 @@ public class act_main extends AppCompatActivity implements View.OnClickListener{
 		Random rnd = new Random();
 		int pos = rnd.nextInt(quote_size);
 		set_quote(pos + 1);
-
-		SharedPreferences prefer = getSharedPreferences("config", MODE_PRIVATE);
-		select_table = prefer.getString("select_table", "gre_000");
-		text_table.setText("table: " + select_table);
+		show_table();
 	}
 
 	@Override
 	public void onResume(){
 		super.onResume();
-		SharedPreferences prefer = getSharedPreferences("config", MODE_PRIVATE);
-		select_table = prefer.getString("select_table", "gre_000");
-		text_table.setText("table: " + select_table);
+		show_table();
 	}
 
 	@Override
@@ -97,6 +92,12 @@ public class act_main extends AppCompatActivity implements View.OnClickListener{
 		default:
 			break;
 		}
+	}
+
+	protected void show_table(){
+		SharedPreferences prefer = getSharedPreferences("config", MODE_PRIVATE);
+		select_table = prefer.getString("select_table", "gre_000");
+		text_table.setText(select_table);
 	}
 
 	protected void set_quote(int pos){

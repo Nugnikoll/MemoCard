@@ -29,7 +29,7 @@
 				android:layout_height="wrap_content"
 				android:gravity="center"
 				android:layout_marginTop="20dp"
-				android:text="table: "
+				android:text=""
 				android:textColor="#ffffff"
 				android:textSize="30dp"/>
 
@@ -38,7 +38,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="20dp"
-				android:text="Quick Start"
+				android:text="Start"
 				android:textStyle="bold"
 				android:background="@drawable/main_button"
 				android:textSize="30dp"/>
@@ -48,7 +48,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="20dp"
-				android:text="Manage Database"
+				android:text="Database"
 				android:textStyle="bold"
 				android:background="@drawable/main_button"
 				android:textSize="30dp"/>
