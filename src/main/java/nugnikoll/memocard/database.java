@@ -42,7 +42,36 @@ public class database{
 		return vec;
 	}
 
-	public void swap(String table, int pos1, int pos2){
+	public void insert_table(int pos, String table, String info){
+		int num = get_table_size("index");
+		for(int i = num - 1; i >= pos; --i){
+			db.execSQL(
+				"update `index` set id = " + Integer.toString(i + 1)
+				+ " where id = " + Integer.toString(i) + ";"
+			);
+		}
+		db.execSQL(
+			"insert into `index` (`id`, `table`, `author`, `type`, `info`) values ("
+			+ Integer.toString(pos)
+			+ ", '" + table + "', 'user', 'card', '"
+			+ info + "');"
+		);
+	}
+
+	public void delete_table(int pos){
+		int num = get_table_size("index");
+		db.execSQL(
+			"delete from `index` where id = " + Integer.toString(pos) + ";"
+		);
+		for(int i = pos + 1; i < num; ++i){
+			db.execSQL(
+				"update `index` set id = " + Integer.toString(i - 1)
+				+ " where id = " + Integer.toString(i) + ";"
+			);
+		}
+	}
+
+	public void swap_index(String table, int pos1, int pos2){
 		String p1 = Integer.toString(pos1);
 		String p2 = Integer.toString(pos2);
 		db.execSQL(

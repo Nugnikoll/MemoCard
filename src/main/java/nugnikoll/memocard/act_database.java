@@ -14,9 +14,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +32,6 @@ import java.util.Vector;
  */
 public class act_database extends AppCompatActivity {
 	protected database db;
-	protected String text_input_table;
 	protected Vector<String> vec_table;
 	protected ListView list_table;
 	protected TextView text_table;
@@ -54,6 +55,7 @@ public class act_database extends AppCompatActivity {
 			}
 		);
 		text_table = findViewById(R.id.text_table);
+
 		init_list();
 		update_list();
 
@@ -101,16 +103,27 @@ public class act_database extends AppCompatActivity {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Create new table");
 
-		final EditText input = new EditText(this);
-		//input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-		builder.setView(input);
+		final EditText input_table = new EditText(this);
+		input_table.setHint("table name");
+		final EditText input_info = new EditText(this);
+		input_info.setHint("info");
+		LinearLayout linear_dialog = new LinearLayout(this);
+        linear_dialog.setOrientation(LinearLayout.VERTICAL);
+        linear_dialog.addView(input_table);
+        linear_dialog.addView(input_info);
+
+		builder.setView(linear_dialog);
 
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				text_input_table = input.getText().toString();
-				vec_table.add(text_input_table);
-				update_list();
+				String text_input_table = input_table.getText().toString().trim();
+				String text_input_info = input_info.getText().toString().trim();
+				if(text_input_table.length() > 0){
+					db.insert_table(pos_select, text_input_table, text_input_info);
+					init_list();
+					update_list();
+				}
 			}
 		});
 		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -164,7 +177,7 @@ public class act_database extends AppCompatActivity {
 						String temp = vec_table.get(pos_select - 1);
 						vec_table.set(pos_select - 1, vec_table.get(pos_select));
 						vec_table.set(pos_select, temp);
-						db.swap("index", pos_select - 1, pos_select);
+						db.swap_index("index", pos_select - 1, pos_select);
 						update_list();
 					}
 					break;
@@ -173,9 +186,14 @@ public class act_database extends AppCompatActivity {
 						String temp = vec_table.get(pos_select);
 						vec_table.set(pos_select, vec_table.get(pos_select + 1));
 						vec_table.set(pos_select + 1, temp);
-						db.swap("index", pos_select, pos_select + 1);
+						db.swap_index("index", pos_select, pos_select + 1);
 						update_list();
 					}
+					break;
+				case 4:
+					db.delete_table(pos_select);
+					init_list();
+					update_list();
 					break;
 				default:
 					AlertDialog.Builder builderInner = new AlertDialog.Builder(act_database.this);
