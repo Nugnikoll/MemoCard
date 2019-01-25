@@ -32,9 +32,9 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 	protected ViewGroup view_normal;
 	protected Scene scene_normal;
 	protected RelativeLayout linear_key;
-	protected LinearLayout linear_content, linear_true, linear_false, linear_next;
+	protected LinearLayout linear_content, linear_true, linear_false;
 	protected TextView[] text_key;
-	protected TextView text_content;
+	protected TextView text_content, text_false;
 
 	boolean flag_key;
 	protected String table;
@@ -43,7 +43,9 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 		mode_normal,
 		mode_content
 	}
+	mode_type mode_card;
 	protected Vector<Integer> vec_index;
+	protected TransitionSet transet_normal, transet_simple;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,19 +58,17 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 		scene_normal.enter();
 
 		linear_key = view_normal.findViewById(R.id.linear_key);
-		linear_key.setOnClickListener(this);
 		linear_content = view_normal.findViewById(R.id.linear_content);
 		linear_true = view_normal.findViewById(R.id.linear_true);
 		linear_true.setOnClickListener(this);
 		linear_false = view_normal.findViewById(R.id.linear_false);
 		linear_false.setOnClickListener(this);
-		linear_next = view_normal.findViewById(R.id.linear_next);
-		linear_next.setOnClickListener(this);
 		text_key = new TextView[]{
 			view_normal.findViewById(R.id.text_key1),
 			view_normal.findViewById(R.id.text_key2)
 		};
 		text_content = findViewById(R.id.text_content);
+		text_false = findViewById(R.id.text_false);
 
 		app_memo app = (app_memo) getApplication();
 		db = app.get_database();
@@ -86,6 +86,18 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 
 		set_card(index);
 		set_mode(mode_type.mode_normal);
+
+		transet_normal = new TransitionSet()
+			.setOrdering(TransitionSet.ORDERING_SEQUENTIAL)
+			.addTransition(new Fade(Fade.OUT).setDuration(0))
+            .addTransition(new ChangeBounds().setDuration(500))
+			.addTransition(new Fade(Fade.IN).setDuration(500));
+
+		transet_simple = new TransitionSet()
+			.setOrdering(TransitionSet.ORDERING_SEQUENTIAL)
+			.addTransition(new Fade(Fade.OUT).setDuration(500))
+            .addTransition(new ChangeBounds().setDuration(500))
+			.addTransition(new Fade(Fade.IN).setDuration(500));
 	}
 
 	@Override
@@ -112,25 +124,22 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 
 	@Override
 	public void onClick(View view){
-		TransitionSet transet = new TransitionSet()
-			.setOrdering(TransitionSet.ORDERING_SEQUENTIAL)
-			.addTransition(new Fade(Fade.OUT).setDuration(0))
-            .addTransition(new ChangeBounds().setDuration(500))
-			.addTransition(new Fade(Fade.IN).setDuration(500));
-		TransitionManager.beginDelayedTransition(view_normal, transet);
+		if(mode_card == mode_type.mode_normal && view.getId() == R.id.linear_true){
+			TransitionManager.beginDelayedTransition(view_normal, transet_simple);
+		}else{
+			TransitionManager.beginDelayedTransition(view_normal, transet_normal);
+		}
 		switch(view.getId()){
-		case R.id.linear_key:
-			set_card(index);
-			set_mode(mode_type.mode_content);
-			break;
 		case R.id.linear_true:
 			next_card();
 			break;
 		case R.id.linear_false:
-			next_card();
-			break;
-		case R.id.linear_next:
-			next_card();
+			if(mode_card == mode_type.mode_normal){
+				set_card(index);
+				set_mode(mode_type.mode_content);
+			}else{
+				next_card();
+			}
 			break;
 		default:
 			break;
@@ -156,18 +165,21 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 	}
 
 	protected void set_mode(mode_type mode){
+		mode_card = mode;
 		switch (mode){
 		case mode_normal:
-			text_key[0].setMinHeight(700);
-			text_key[1].setMinHeight(700);
+			text_key[0].setMinHeight(600);
+			text_key[1].setMinHeight(600);
 			text_content.setMinHeight(0);
 			text_content.setVisibility(View.GONE);
+			text_false.setText("Check answer");
 			break;
 		case mode_content:
 			text_key[0].setMinHeight(0);
 			text_key[1].setMinHeight(0);
-			text_content.setMinHeight(600);
+			text_content.setMinHeight(500);
 			text_content.setVisibility(View.VISIBLE);
+			text_false.setText("I don't know");
 			break;
 		default:
 		}

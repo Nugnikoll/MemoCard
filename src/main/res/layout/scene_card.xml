@@ -57,10 +57,9 @@
 			android:layout_height="wrap_content"
 			android:layout_margin="10dp"
 			android:gravity="center"
-			android:text="mastered"
+			android:text="I know"
 			android:textSize="30dp"
-			android:textColor="#000000"
-			android:visibility="gone"/>
+			android:textColor="#000000"/>
 	</LinearLayout>
 
 	<LinearLayout
@@ -75,25 +74,7 @@
 			android:layout_height="wrap_content"
 			android:layout_margin="10dp"
 			android:gravity="center"
-			android:text="forget"
-			android:textSize="30dp"
-			android:textColor="#000000"
-			android:visibility="gone"/>
-	</LinearLayout>
-
-	<LinearLayout
-		android:id="@+id/linear_next"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal"
-		android:background="@drawable/card_next">
-		<TextView
-			android:id="@+id/text_next"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_margin="10dp"
-			android:gravity="center"
-			android:text="next"
+			android:text="check answer"
 			android:textSize="30dp"
 			android:textColor="#000000"/>
 	</LinearLayout>
