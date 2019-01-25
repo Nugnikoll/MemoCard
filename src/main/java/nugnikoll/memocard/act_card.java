@@ -23,6 +23,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.Collections;
+import java.util.Random;
 import java.util.Vector;
 
 public class act_card extends AppCompatActivity implements View.OnClickListener{
@@ -43,8 +44,17 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 		mode_normal,
 		mode_content
 	}
-	mode_type mode_card;
-	protected Vector<Integer> vec_index;
+	protected mode_type mode_card;
+	class card{
+		public int index;
+		public int record;
+
+		public card(int _index){
+			index = _index;
+			record = 0;
+		}
+	}
+	protected Vector<card> vec_card;
 	protected TransitionSet transet_normal, transet_simple;
 
 	@Override
@@ -78,13 +88,13 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 		flag_key = false;
 		index = 0;
 		table_size = db.get_table_size(table);
-		vec_index = new Vector<>();
+		vec_card = new Vector<>();
 		for(int i = 0; i != table_size; ++i){
-			vec_index.add(i + 1);
+			vec_card.add(new card(i + 1));
 		}
-		Collections.shuffle(vec_index);
+		Collections.shuffle(vec_card);
 
-		set_card(index);
+		set_card();
 		set_mode(mode_type.mode_normal);
 
 		transet_normal = new TransitionSet()
@@ -131,14 +141,14 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 		}
 		switch(view.getId()){
 		case R.id.linear_true:
-			next_card();
+			next_card(true);
 			break;
 		case R.id.linear_false:
 			if(mode_card == mode_type.mode_normal){
-				set_card(index);
+				set_card();
 				set_mode(mode_type.mode_content);
 			}else{
-				next_card();
+				next_card(false);
 			}
 			break;
 		default:
@@ -146,8 +156,8 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 		}
 	}
 
-	protected void set_card(int pos){
-		Vector<String> vec = db.get_card(table, vec_index.get(pos));
+	protected void set_card(){
+		Vector<String> vec = db.get_card(table, vec_card.get(0).index);
 		text_key[flag_key ? 0 : 1].setVisibility(View.INVISIBLE);
 		text_key[flag_key ? 1 : 0].setText(vec.get(0).trim());
 		text_key[flag_key ? 1 : 0].setVisibility(View.VISIBLE);
@@ -155,12 +165,46 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 		text_content.setText(vec.get(1).trim());
 	}
 
-	protected void next_card(){
-		++index;
-		if(index >= table_size){
-			index = 0;
+	protected void next_card(boolean flag){
+		card crd = vec_card.get(0);
+		if(flag){
+			if(crd.record < 5){
+				++crd.record;
+			}
+		}else{
+			crd.record = 0;
 		}
-		set_card(index);
+		vec_card.remove(0);
+		int num = vec_card.size();
+		int pos;
+		Random rnd = new Random();
+		switch(crd.record){
+		case 0:
+		case 1:
+			pos = rnd.nextInt(5) + 5;
+			break;
+		case 2:
+			pos = rnd.nextInt(10) + 10;
+			break;
+		case 3:
+			pos = rnd.nextInt(15) + 20;
+			break;
+		case 4:
+			pos = rnd.nextInt(15) + 35;
+			break;
+		case 5:
+			pos = num;
+			break;
+		default:
+			pos = 0;
+			Log.e("card", "unexpected pos value");
+			break;
+		}
+		if(pos > num){
+			pos = num;
+		}
+		vec_card.insertElementAt(crd, pos);
+		set_card();
 		set_mode(mode_type.mode_normal);
 	}
 
