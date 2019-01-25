@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -78,8 +79,12 @@ public class act_main extends AppCompatActivity implements View.OnClickListener{
 		Intent itt;
 		switch(view.getId()){
 		case R.id.button_start:
-			itt = new Intent(this, act_card.class);
-			startActivityForResult(itt, 1);
+			if(!check_table()){
+				Toast.makeText(this, "Invalid table selected.", Toast.LENGTH_LONG).show();
+			}else{
+				itt = new Intent(this, act_card.class);
+				startActivityForResult(itt, 1);
+			}
 			break;
 		case R.id.button_database:
 			itt = new Intent(this, act_database.class);
@@ -104,6 +109,15 @@ public class act_main extends AppCompatActivity implements View.OnClickListener{
 		Vector<String> vec = db.get_quote("quote", pos);
 		text_quote.setText(vec.get(0));
 		text_author.setText(vec.get(1));
+	}
+
+	protected boolean check_table(){
+		Vector<String> vec = db.get_table_detail(select_table);
+		if(!vec.get(2).equals("card")){
+			return false;
+		}else{
+			return true;
+		}
 	}
 }
 

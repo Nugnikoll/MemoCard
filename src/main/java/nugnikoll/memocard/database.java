@@ -42,6 +42,23 @@ public class database{
 		return vec;
 	}
 
+	public Vector<String> get_table_detail(String table_name){
+		Vector<String> vec = new Vector<>();
+		Cursor cs = db.rawQuery(
+			"select * from `index` where `table` = \""
+			+ table_name + "\""
+			, null
+		);
+		while(cs.moveToNext()){
+			vec.add(cs.getString(cs.getColumnIndex("table")));
+			vec.add(cs.getString(cs.getColumnIndex("author")));
+			vec.add(cs.getString(cs.getColumnIndex("type")));
+			vec.add(cs.getString(cs.getColumnIndex("info")));
+		}
+		cs.close();
+		return vec;
+	}
+
 	public void insert_table(int pos, String table, String info){
 		int num = get_table_size("index");
 		for(int i = num - 1; i >= pos; --i){
