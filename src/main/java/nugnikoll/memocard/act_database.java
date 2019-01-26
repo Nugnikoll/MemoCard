@@ -36,7 +36,7 @@ public class act_database extends AppCompatActivity {
 	protected Vector<String> vec_table;
 	protected ListView list_table;
 	protected TextView text_table;
-	protected int pos_select;
+	protected String table_click;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +90,7 @@ public class act_database extends AppCompatActivity {
 	}
 
 	protected void init_list(){
-		vec_table = db.get_table();
+		vec_table = db.get_index();
 	}
 
 	protected void update_list(){
@@ -133,7 +133,7 @@ public class act_database extends AppCompatActivity {
 				if(text_input_table.length() > 0){
 					text_input_table = text_input_table.replaceAll("`", "``");
 					text_input_info = text_input_info.replaceAll("`", "``");
-					db.insert_table(pos_select, text_input_table, text_input_info);
+					db.insert_table(text_input_table, text_input_info);
 					init_list();
 					update_list();
 					dialog.dismiss();
@@ -149,16 +149,14 @@ public class act_database extends AppCompatActivity {
 	}
 
 	protected void click_table(int position){
-		pos_select = position;
+		table_click = vec_table.get(position);
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Table: " + vec_table.get(position));
+		builder.setTitle("Table: " + table_click);
 
 		final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
 
 		arrayAdapter.add("Select");
 		arrayAdapter.add("Info");
-		arrayAdapter.add("Move Upward");
-		arrayAdapter.add("Move Downward");
 		arrayAdapter.add("Delete");
 
 		//builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -177,29 +175,15 @@ public class act_database extends AppCompatActivity {
 				case 0:
 					SharedPreferences prefer = getSharedPreferences("config", MODE_PRIVATE);
 					SharedPreferences.Editor editor = prefer.edit();
-					editor.putString("select_table", vec_table.get(pos_select));
+					editor.putString("select_table", table_click);
 					editor.apply();
-					text_table.setText("table: " + vec_table.get(pos_select));
+					text_table.setText("table: " + table_click);
 					break;
 				case 1:
-					table_info(pos_select);
+					table_info(table_click);
 					break;
 				case 2:
-					if(pos_select > 0){
-						db.swap_index("index", pos_select - 1, pos_select);
-						init_list();
-						update_list();
-					}
-					break;
-				case 3:
-					if(pos_select + 1 < vec_table.size()){
-						db.swap_index("index", pos_select, pos_select + 1);
-						init_list();
-						update_list();
-					}
-					break;
-				case 4:
-					db.delete_table(pos_select);
+					db.delete_table(table_click);
 					init_list();
 					update_list();
 					break;
@@ -220,10 +204,10 @@ public class act_database extends AppCompatActivity {
 		builder.show();
 	}
 
-	protected void table_info(int pos){
+	protected void table_info(String table_name){
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Table: " + vec_table.get(pos));
-		Vector<String> vec = db.get_table_detail(pos);
+		builder.setTitle("Table: " + table_name);
+		Vector<String> vec = db.get_table(table_name);
 		builder.setMessage(
 			"Author: " + vec.get(1)
 			+ "\nType: " + vec.get(2)

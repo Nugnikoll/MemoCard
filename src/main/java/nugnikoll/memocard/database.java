@@ -13,7 +13,7 @@ public class database{
 		db = context.openOrCreateDatabase(path, Context.MODE_PRIVATE, null);
 	}
 
-	public Vector<String> get_table(){
+	public Vector<String> get_index(){
 		String item;
 		Vector<String> vec_table = new Vector<>();
 		Cursor cs = db.rawQuery("select * from `index`", null);
@@ -25,24 +25,7 @@ public class database{
 		return vec_table;
 	}
 
-	public Vector<String> get_table_detail(int pos){
-		Vector<String> vec = new Vector<>();
-		Cursor cs = db.rawQuery(
-			"select * from `index` where id = "
-			+ Integer.toString(pos)
-			, null
-		);
-		while(cs.moveToNext()){
-			vec.add(cs.getString(cs.getColumnIndex("table")));
-			vec.add(cs.getString(cs.getColumnIndex("author")));
-			vec.add(cs.getString(cs.getColumnIndex("type")));
-			vec.add(cs.getString(cs.getColumnIndex("info")));
-		}
-		cs.close();
-		return vec;
-	}
-
-	public Vector<String> get_table_detail(String table_name){
+	public Vector<String> get_table(String table_name){
 		Vector<String> vec = new Vector<>();
 		Cursor cs = db.rawQuery(
 			"select * from `index` where `table` = \""
@@ -59,51 +42,21 @@ public class database{
 		return vec;
 	}
 
-	public void insert_table(int pos, String table, String info){
-		int num = get_table_size("index");
-		for(int i = num - 1; i >= pos; --i){
-			db.execSQL(
-				"update `index` set id = " + Integer.toString(i + 1)
-				+ " where id = " + Integer.toString(i) + ";"
-			);
-		}
+	public void insert_table(String table_name, String info){
 		db.execSQL(
-			"insert into `index` (`id`, `table`, `author`, `type`, `info`) values ("
-			+ Integer.toString(pos)
-			+ ", '" + table + "', 'user', 'card', '"
+			"insert into `index` (`table`, `author`, `type`, `info`) values ("
+			+ table_name + "', 'user', 'card', '"
 			+ info + "');"
 		);
 	}
 
-	public void delete_table(int pos){
+	public void delete_table(String table_name){
 		int num = get_table_size("index");
 		db.execSQL(
-			"delete from `index` where id = " + Integer.toString(pos) + ";"
+			"delete from `index` where `table` = \"" + table_name + "\";"
 		);
-		for(int i = pos + 1; i < num; ++i){
-			db.execSQL(
-				"update `index` set id = " + Integer.toString(i - 1)
-				+ " where id = " + Integer.toString(i) + ";"
-			);
-		}
 	}
 
-	public void swap_index(String table, int pos1, int pos2){
-		String p1 = Integer.toString(pos1);
-		String p2 = Integer.toString(pos2);
-		db.execSQL(
-			"update `" + table
-			+ "` set id = -1 where id = " + p1 + ";"
-		);
-		db.execSQL(
-			"update `" + table
-			+ "` set id = " + p1 + " where id = " + p2 + ";"
-		);
-		db.execSQL(
-			"update `" + table
-			+ "` set id = " + p2 + " where id = -1;"
-		);
-	}
 
 	public int get_table_size(String table){
 		int result = -1;

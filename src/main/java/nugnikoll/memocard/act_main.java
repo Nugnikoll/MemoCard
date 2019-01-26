@@ -112,7 +112,7 @@ public class act_main extends AppCompatActivity implements View.OnClickListener{
 	}
 
 	protected boolean check_table(){
-		Vector<String> vec = db.get_table_detail(select_table);
+		Vector<String> vec = db.get_table(select_table);
 		if(!vec.get(2).equals("card")){
 			return false;
 		}else{
