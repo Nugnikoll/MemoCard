@@ -23,6 +23,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.Vector;
 
@@ -45,15 +46,7 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 		mode_content
 	}
 	protected mode_type mode_card;
-	class card{
-		public int index;
-		public int record;
 
-		public card(int _index){
-			index = _index;
-			record = 0;
-		}
-	}
 	protected Vector<card> vec_card;
 	protected TransitionSet transet_normal, transet_simple;
 
@@ -89,10 +82,13 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 		index = 0;
 		table_size = db.get_table_size(table);
 		vec_card = new Vector<>();
+		card crd;
 		for(int i = 0; i != table_size; ++i){
-			vec_card.add(new card(i + 1));
+			crd = db.get_card(table, i +1);
+			vec_card.add(crd);
 		}
-		Collections.shuffle(vec_card);
+		Collections.sort(vec_card);
+		//Collections.shuffle(vec_card);
 
 		set_card();
 		set_mode(mode_type.mode_normal);
@@ -108,6 +104,12 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 			.addTransition(new Fade(Fade.OUT).setDuration(500))
             .addTransition(new ChangeBounds().setDuration(500))
 			.addTransition(new Fade(Fade.IN).setDuration(500));
+	}
+
+	@Override
+	protected void onDestroy(){
+		db.save_record(table, vec_card);
+		super.onDestroy();
 	}
 
 	@Override
@@ -157,12 +159,11 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 	}
 
 	protected void set_card(){
-		Vector<String> vec = db.get_card(table, vec_card.get(0).index);
 		text_key[flag_key ? 0 : 1].setVisibility(View.INVISIBLE);
-		text_key[flag_key ? 1 : 0].setText(vec.get(0).trim());
+		text_key[flag_key ? 1 : 0].setText(vec_card.get(0).key);
 		text_key[flag_key ? 1 : 0].setVisibility(View.VISIBLE);
 		flag_key = !flag_key;
-		text_content.setText(vec.get(1).trim());
+		text_content.setText(vec_card.get(0).content);
 	}
 
 	protected void next_card(boolean flag){
@@ -171,8 +172,16 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 			if(crd.record < 5){
 				++crd.record;
 			}
+			++crd.score;
+			if(crd.score > 10){
+				crd.score = 10;
+			}
 		}else{
 			crd.record = 0;
+			--crd.score;
+			if(crd.score < -3){
+				crd.score = -3;
+			}
 		}
 		vec_card.remove(0);
 		int num = vec_card.size();

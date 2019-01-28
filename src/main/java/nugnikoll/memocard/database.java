@@ -71,19 +71,35 @@ public class database{
 		return result;
 	}
 
-	public Vector<String> get_card(String table, int pos){
-		Vector<String> vec = new Vector<>();
+	public card get_card(String table, int pos){
+		card crd;
 		Cursor cs = db.rawQuery(
 			"select * from `" + table + "` where _rowid_ = "
 			+ Integer.toString(pos)
 			, null
 		);
+		String key = null, content = null;
+		Integer record = null, score = null;
 		while(cs.moveToNext()){
-			vec.add(cs.getString(cs.getColumnIndex("key")));
-			vec.add(cs.getString(cs.getColumnIndex("content")));
+			key = cs.getString(cs.getColumnIndex("key"));
+			content = cs.getString(cs.getColumnIndex("content"));
+			try{
+				record = cs.getInt(cs.getColumnIndex("record"));
+				score = cs.getInt(cs.getColumnIndex("score"));
+			}catch(Exception err){
+				record = 0;
+				score = 0;
+			}
 		}
+		if(record == null){
+			record = 0;
+		}
+		if(score == null){
+			score = 0;
+		}
+		crd = new card(key, content, record, score);
 		cs.close();
-		return vec;
+		return crd;
 	}
 
 	public Vector<String> get_quote(String table, int pos){
@@ -99,5 +115,15 @@ public class database{
 		}
 		cs.close();
 		return vec;
+	}
+
+	void save_record(String table_name, Vector<card> vec){
+		for(card crd: vec){
+			db.execSQL(
+				"update `" + table_name + "` set `record` = "
+				+ crd.record + ", `score` = "
+				+ crd.score + " where `key` = '" + crd.key + "';"
+			);
+		}
 	}
 }
