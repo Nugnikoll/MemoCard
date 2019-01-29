@@ -44,19 +44,25 @@ public class database{
 
 	public void insert_table(String table_name, String info){
 		db.execSQL(
-			"insert into `index` (`table`, `author`, `type`, `info`) values ("
+			"insert into `index` (`table`, `author`, `type`, `info`) values ('"
 			+ table_name + "', 'user', 'card', '"
 			+ info + "');"
+		);
+		db.execSQL(
+			"create table if not exists `"
+			+ table_name
+			+ "` ( `key` text, `content` text, `record` integer, `score` integer, primary key(`key`));"
 		);
 	}
 
 	public void delete_table(String table_name){
-		int num = get_table_size("index");
 		db.execSQL(
 			"delete from `index` where `table` = \"" + table_name + "\";"
 		);
+		db.execSQL(
+			"drop table `" + table_name + "`;"
+		);
 	}
-
 
 	public int get_table_size(String table){
 		int result = -1;

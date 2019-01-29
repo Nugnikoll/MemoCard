@@ -80,7 +80,7 @@ public class act_main extends AppCompatActivity implements View.OnClickListener{
 		switch(view.getId()){
 		case R.id.button_start:
 			if(!check_table()){
-				Toast.makeText(this, "Invalid table selected.", Toast.LENGTH_LONG).show();
+
 			}else{
 				itt = new Intent(this, act_card.class);
 				startActivityForResult(itt, 1);
@@ -113,7 +113,26 @@ public class act_main extends AppCompatActivity implements View.OnClickListener{
 
 	protected boolean check_table(){
 		Vector<String> vec = db.get_table(select_table);
-		if(!vec.get(2).equals("card")){
+		if(vec.size() == 0){
+			Toast.makeText(
+				this,
+				"This table is not available.",
+				Toast.LENGTH_LONG
+			).show();
+			return false;
+		}else if(!vec.get(2).equals("card")){
+			Toast.makeText(
+				this,
+				"This table is not supported.",
+				Toast.LENGTH_LONG
+			).show();
+			return false;
+		}else if(db.get_table_size(vec.get(0)) == 0){
+			Toast.makeText(
+				this,
+				"This table is empty.",
+				Toast.LENGTH_LONG
+			).show();
 			return false;
 		}else{
 			return true;
