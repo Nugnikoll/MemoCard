@@ -16,7 +16,7 @@ public class database{
 	public Vector<String> get_index(){
 		String item;
 		Vector<String> vec_table = new Vector<>();
-		Cursor cs = db.rawQuery("select * from `index`", null);
+		Cursor cs = db.rawQuery("select * from `index` order by `table`", null);
 		while(cs.moveToNext()){
 			item = cs.getString(cs.getColumnIndex("table"));
 			vec_table.add(item);

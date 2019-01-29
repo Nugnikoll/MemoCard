@@ -30,8 +30,8 @@ public class app_memo extends Application{
 			+ File.separator + str_name;
 		File fobj = new File(path);
 
-		if(true){
-		//if(!fobj.exists()){
+		//if(true){
+		if(!fobj.exists()){
 			String str_folder = File.separator + "data"
 				+ Environment.getDataDirectory().getAbsolutePath()
 				+ File.separator + getPackageName()
