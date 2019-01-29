@@ -46,7 +46,7 @@ public class app_memo extends Application{
 			try{
 				InputStream fin = getAssets().open(str_name);
 				FileOutputStream fout = new FileOutputStream(fobj);
-				int len = -1;
+				int len;
 				byte[] buffer = new byte[1024];
 				while((len = fin.read(buffer)) != -1){
 					fout.write(buffer, 0, len);

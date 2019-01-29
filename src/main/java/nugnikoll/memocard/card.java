@@ -15,7 +15,7 @@ class card implements Comparable<card>{
 		record = _record;
 		score = _score;
 		Random rnd = new Random();
-		value = score + rnd.nextGaussian() * 0.7;
+		value = score + rnd.nextGaussian() * 0.5;
 	}
 
 	@Override
