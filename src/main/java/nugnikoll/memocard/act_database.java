@@ -42,6 +42,7 @@ public class act_database extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_database);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		app_memo app = (app_memo) getApplication();
 		db = app.get_database();
@@ -74,9 +75,6 @@ public class act_database extends AppCompatActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
-			case R.id.action_back:
-				finish();
-				return true;
 			case R.id.action_add:
 				create_table();
 				return true;

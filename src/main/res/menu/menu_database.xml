@@ -5,12 +5,6 @@
     tools:context="com.example.actionbartest.MainActivity" >
 
     <item
-        android:id="@+id/action_back"
-        android:icon="@drawable/arrowleft"
-        android:title="@string/action_back"
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/action_add"
         android:icon="@drawable/file_add_fill"
         android:title="@string/action_add"

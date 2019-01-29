@@ -46,12 +46,13 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 	protected mode_type mode_card;
 
 	protected Vector<card> vec_card;
-	protected TransitionSet transet_normal, transet_simple;
+	protected TransitionSet transet_normal, transet_simple, transet_bond;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_card);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		scroll_card = findViewById(R.id.scroll_card);
 		view_normal = (ViewGroup)getLayoutInflater().inflate(R.layout.scene_card, scroll_card, false);
@@ -99,6 +100,10 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 			.addTransition(new Fade(Fade.OUT).setDuration(500))
             .addTransition(new ChangeBounds().setDuration(500))
 			.addTransition(new Fade(Fade.IN).setDuration(500));
+
+		transet_bond = new TransitionSet()
+			.setOrdering(TransitionSet.ORDERING_SEQUENTIAL)
+            .addTransition(new ChangeBounds().setDuration(500));
 	}
 
 	@Override
@@ -118,12 +123,9 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
 			case R.id.action_example:
-				TransitionManager.beginDelayedTransition(view_normal, transet_simple);
+				TransitionManager.beginDelayedTransition(view_normal, transet_bond);
 				flag_example = !flag_example;
 				set_card(false);
-				return true;
-			case R.id.action_back:
-				finish();
 				return true;
 			case R.id.action_login:
 				Intent itt = new Intent(this, act_login.class);
