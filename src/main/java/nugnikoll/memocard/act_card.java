@@ -39,6 +39,7 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 	protected TextView text_content, text_false;
 
 	boolean flag_key;
+	boolean flag_example;
 	protected String table;
 	protected int index, table_size;
 	protected enum mode_type{
@@ -79,6 +80,7 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 		table = prefer.getString("select_table", "");
 
 		flag_key = false;
+		flag_example = false;
 		index = 0;
 		table_size = db.get_table_size(table);
 		vec_card = db.get_card(table);
@@ -117,6 +119,11 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
+			case R.id.action_example:
+				TransitionManager.beginDelayedTransition(view_normal, transet_simple);
+				flag_example = !flag_example;
+				set_card();
+				return true;
 			case R.id.action_back:
 				finish();
 				return true;
@@ -155,6 +162,10 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 
 	protected void set_card(){
 		card crd = vec_card.get(0);
+		String content = vec_card.get(0).content;
+		if(!flag_example){
+			content = content.replaceAll("\\n\\teg\\.[^\\n]*(?=\\n|$)", "");
+		}
 		Log.d(
 			"card",
 			crd.key + " "
@@ -166,7 +177,7 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 		text_key[flag_key ? 1 : 0].setText(vec_card.get(0).key);
 		text_key[flag_key ? 1 : 0].setVisibility(View.VISIBLE);
 		flag_key = !flag_key;
-		text_content.setText(vec_card.get(0).content);
+		text_content.setText(content);
 	}
 
 	protected void next_card(boolean flag){
