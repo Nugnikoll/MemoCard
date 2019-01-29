@@ -81,12 +81,7 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 		flag_key = false;
 		index = 0;
 		table_size = db.get_table_size(table);
-		vec_card = new Vector<>();
-		card crd;
-		for(int i = 0; i != table_size; ++i){
-			crd = db.get_card(table, i +1);
-			vec_card.add(crd);
-		}
+		vec_card = db.get_card(table);
 		Collections.sort(vec_card);
 		//Collections.shuffle(vec_card);
 
@@ -159,6 +154,14 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 	}
 
 	protected void set_card(){
+		card crd = vec_card.get(0);
+		Log.d(
+			"card",
+			crd.key + " "
+			+ Integer.toString(crd.record) + " "
+			+ Integer.toString(crd.score) + " "
+			+ Double.toString(crd.value)
+		);
 		text_key[flag_key ? 0 : 1].setVisibility(View.INVISIBLE);
 		text_key[flag_key ? 1 : 0].setText(vec_card.get(0).key);
 		text_key[flag_key ? 1 : 0].setVisibility(View.VISIBLE);

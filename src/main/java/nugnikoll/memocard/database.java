@@ -71,15 +71,14 @@ public class database{
 		return result;
 	}
 
-	public card get_card(String table, int pos){
-		card crd;
+	public Vector<card> get_card(String table){
+		Vector<card> vec = new Vector<>();
 		Cursor cs = db.rawQuery(
-			"select * from `" + table + "` where _rowid_ = "
-			+ Integer.toString(pos)
+			"select * from `" + table + "`"
 			, null
 		);
-		String key = null, content = null;
-		Integer record = null, score = null;
+		String key, content;
+		Integer record, score;
 		while(cs.moveToNext()){
 			key = cs.getString(cs.getColumnIndex("key"));
 			content = cs.getString(cs.getColumnIndex("content"));
@@ -90,16 +89,10 @@ public class database{
 				record = 0;
 				score = 0;
 			}
+			vec.add(new card(key, content, record, score));
 		}
-		if(record == null){
-			record = 0;
-		}
-		if(score == null){
-			score = 0;
-		}
-		crd = new card(key, content, record, score);
 		cs.close();
-		return crd;
+		return vec;
 	}
 
 	public Vector<String> get_quote(String table, int pos){
