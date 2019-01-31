@@ -78,9 +78,9 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 		db = app.get_database();
 		SharedPreferences prefer = getSharedPreferences("config", MODE_PRIVATE);
 		table = prefer.getString("select_table", "");
+		flag_example = prefer.getBoolean("flag_example", false);
 
 		flag_key = false;
-		flag_example = false;
 		index = 0;
 		table_size = db.get_table_size(table);
 		vec_card = db.get_card(table);
@@ -109,6 +109,10 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 	@Override
 	protected void onDestroy(){
 		db.save_record(table, vec_card);
+		SharedPreferences prefer = getSharedPreferences("config", MODE_PRIVATE);
+		SharedPreferences.Editor editor = prefer.edit();
+		editor.putBoolean("flag_example", flag_example);
+		editor.apply();
 		super.onDestroy();
 	}
 
