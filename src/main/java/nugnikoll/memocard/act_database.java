@@ -80,7 +80,7 @@ public class act_database extends AppCompatActivity {
 	}
 
 	protected void update_list(){
-		ArrayAdapter<String> adapter = new ArrayAdapter<>(
+		adapt_item_table adapter = new adapt_item_table(
 			this, android.R.layout.simple_list_item_1, vec_table
 		);
 		list_table.setAdapter(adapter);
