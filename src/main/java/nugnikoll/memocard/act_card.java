@@ -49,8 +49,8 @@ public class act_card extends AppCompatActivity implements View.OnClickListener{
 	protected TransitionSet transet_normal, transet_simple, transet_bond;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	protected void onCreate(Bundle instance) {
+		super.onCreate(instance);
 		setContentView(R.layout.layout_card);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

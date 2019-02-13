@@ -143,6 +143,7 @@ public class act_database extends AppCompatActivity {
 
 		arrayAdapter.add("Select");
 		arrayAdapter.add("Info");
+		arrayAdapter.add("Edit");
 		arrayAdapter.add("Delete");
 
 		//builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -169,6 +170,11 @@ public class act_database extends AppCompatActivity {
 					table_info(table_click);
 					break;
 				case 2:
+					Intent itt = new Intent(act_database.this, act_table.class);
+					itt.putExtra("table_name", table_click);
+					startActivityForResult(itt, 1);
+					break;
+				case 3:
 					db.delete_table(table_click);
 					init_list();
 					update_list();

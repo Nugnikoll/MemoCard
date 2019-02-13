@@ -37,6 +37,13 @@
 				android:value="nugnikoll.memocard.act_main" />
 		</activity>
 		<activity
+			android:name=".act_table"
+			android:label="@string/app_name">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="nugnikoll.memocard.act_database" />
+		</activity>
+		<activity
 			android:name=".act_card"
 			android:label="@string/app_name">
 			<meta-data

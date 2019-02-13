@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:gravity="center_horizontal"
+	android:orientation="vertical"
+	android:paddingBottom="@dimen/activity_vertical_margin"
+	android:paddingLeft="@dimen/activity_horizontal_margin"
+	android:paddingRight="@dimen/activity_horizontal_margin"
+	android:paddingTop="@dimen/activity_vertical_margin"
+	android:background="#000000"
+	tools:context=".act_table">
+
+	<ScrollView
+		android:id="@+id/scroll_table"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+
+			<TextView
+				android:id="@+id/text_table"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:textColor="#ffffff"
+				android:textSize="20dp"/>
+
+			<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+				<ProgressBar
+					android:id="@+id/prog_learn"
+					android:layout_width="match_parent"
+					android:layout_height="30dp"
+					android:layout_alignParentStart="true"
+					style="?android:attr/progressBarStyleHorizontal"
+					android:progressDrawable="@drawable/prog_learn"
+					android:min="0"
+					android:max="100"
+					android:progress="70"/>
+				<ProgressBar
+					android:id="@+id/prog_review"
+					android:layout_width="match_parent"
+					android:layout_height="30dp"
+					android:layout_alignParentStart="true"
+					style="?android:attr/progressBarStyleHorizontal"
+					android:progressDrawable="@drawable/prog_review"
+					android:min="0"
+					android:max="100"
+					android:progress="50"/>
+				<ProgressBar
+					android:id="@+id/prog_master"
+					android:layout_width="match_parent"
+					android:layout_height="30dp"
+					android:layout_alignParentStart="true"
+					style="?android:attr/progressBarStyleHorizontal"
+					android:progressDrawable="@drawable/prog_master"
+					android:min="0"
+					android:max="100"
+					android:progress="20"/>
+			</RelativeLayout>
+
+		</LinearLayout>
+
+	</ScrollView>
+
+</LinearLayout>
