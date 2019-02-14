@@ -125,4 +125,41 @@ public class database{
 			);
 		}
 	}
+
+	Vector<Integer> get_progress(String table_name){
+		Vector<Integer> vec = new Vector<>();
+		Cursor cs = db.rawQuery(
+			"select count(*) from `" + table_name + "` where `score` is null"
+			, null
+		);
+		while(cs.moveToNext()){
+			vec.add(cs.getInt(0));
+		}
+		cs.close();
+		cs = db.rawQuery(
+			"select count(*) from `" + table_name + "` where `score` <= 0"
+			, null
+		);
+		while(cs.moveToNext()){
+			vec.add(cs.getInt(0));
+		}
+		cs.close();
+		cs = db.rawQuery(
+			"select count(*) from `" + table_name + "` where `score` > 0 and `score` <= 3"
+			, null
+		);
+		while(cs.moveToNext()){
+			vec.add(cs.getInt(0));
+		}
+		cs.close();
+		cs = db.rawQuery(
+			"select count(*) from `" + table_name + "` where `score` > 3"
+			, null
+		);
+		while(cs.moveToNext()){
+			vec.add(cs.getInt(0));
+		}
+		cs.close();
+		return vec;
+	}
 }
